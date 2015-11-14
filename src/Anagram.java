@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
  */
 public class Anagram {
 
-    private static String[] commonEnglishWords = getCommonEnglishWords();
+    private static String[] commonEnglishWords = getCommonWords();
     private static String[] longAnagrams = getLongAnagrams(100, 10000);
     private static Map<Character, Integer> primes = new HashMap<>();
     private static int largestPrime = 2;
@@ -244,15 +244,22 @@ public class Anagram {
     //Methods for generating testing data
 
     /**
-     * Get the 5000 most common english words, duplicated many times
+     * Get a whole bunch of ordinary words
      *
      * @return
      */
-    private static String[] getCommonEnglishWords() {
+    private static String[] getCommonWords() {
         List<String> words = new LinkedList<>();
-        System.out.println(System.getProperty("user.dir"));
         try {
-            Scanner sc = new Scanner(new File(System.getProperty("user.dir") + "/src/words.csv"));
+            Scanner sc = new Scanner(new File("/usr/share/dict/words"));
+            while (sc.hasNext()) {
+                words.add(sc.next());
+            }
+            sc = new Scanner(new File("/usr/share/dict/propernames"));
+            while (sc.hasNext()) {
+                words.add(sc.next());
+            }
+            sc = new Scanner(new File("/usr/share/dict/connectives"));
             while (sc.hasNext()) {
                 words.add(sc.next());
             }
