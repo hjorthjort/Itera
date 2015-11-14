@@ -8,6 +8,14 @@ import java.util.stream.Collectors;
  * Created by hjort on 14/11/15.
  */
 public abstract class AnagramMap<K> {
+
+
+    /**
+     * Return a map of anagrams created by the algorithm defined by the implementing class.
+     *
+     * @param inputStrings
+     * @return
+     */
     public Map<K, List<String>> createMap(String[] inputStrings) {
         Map<K, List<String>> returnMap =
                 Arrays.asList(inputStrings)
@@ -30,6 +38,11 @@ public abstract class AnagramMap<K> {
         return map;
     }
 
+    /**
+     * The algorithm for finding anagrams
+     * @param string
+     * @return
+     */
     protected abstract K getKey(String string);
 
 }
