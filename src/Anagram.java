@@ -1,5 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,7 +19,7 @@ public class Anagram {
         initiatePrimes();
 
         long startCES = System.nanoTime();
-        Map commonEnglishSort = anagramMapSortMethod(commonEnglishWords);
+        Map<String, List<String>> commonEnglishSort = anagramMapSortMethod(commonEnglishWords);
         long endCES = System.nanoTime();
         long runtimeCES = endCES - startCES;
 
@@ -30,7 +29,7 @@ public class Anagram {
         long runtimeLAS = endLAS - startLAS;
 
         long startCEH = System.nanoTime();
-        Map commonEnglishHash = anagramMapHashMethod(commonEnglishWords);
+        Map<Map<Character, Integer>, List<String>>  commonEnglishHash = anagramMapHashMethod(commonEnglishWords);
         long endCEH = System.nanoTime();
         long runtimeCEH = endCEH - startCEH;
 
@@ -40,7 +39,7 @@ public class Anagram {
         long runtimeLAH = endLAH - startLAH;
 
         long startCEP = System.nanoTime();
-        Map commonEnglishPrime = anagramMapPrimesMethod(commonEnglishWords);
+        Map<BigInteger, List<String>> commonEnglishPrime = anagramMapPrimesMethod(commonEnglishWords);
         long endCEP = System.nanoTime();
         long runtimeCEP = endCEP - startCEP;
 
@@ -48,14 +47,43 @@ public class Anagram {
         Map longAnagramsPrime = anagramMapPrimesMethod(longAnagrams);
         long endLAP = System.nanoTime();
         long runtimeLAP = endLAP - startLAP;
-        System.out.println("Performance (millisec): Common english, sort: " + (runtimeCES / 1000000));
-        System.out.println("Performance (millisec): Common english, hash: " + (runtimeCEH / 1000000));
-        System.out.println("Performance (millisec): Common english, primes: " + (runtimeCEP / 1000000));
-        System.out.println("Performance (millisec): Long anagrams, sort: " + (runtimeLAS / 1000000));
-        System.out.println("Performance (millisec): Long anagrams, hash: " + (runtimeLAH / 1000000));
-        System.out.println("Performance (millisec): Long anagrams, primes: " + (runtimeLAP / 1000000));
 
-        System.out.println(commonEnglishPrime);
+
+        //Logging
+        try {
+            PrintWriter writer = new PrintWriter("log.txt", "UTF-8");
+
+            writer.println("Performance (unit = milliseconds");
+            writer.println("=============================\n");
+            writer.println("Common english, sort: " + (runtimeCES / 1000000));
+            writer.println("Common english, hash: " + (runtimeCEH / 1000000));
+            writer.println("Common english, primes: " + (runtimeCEP / 1000000));
+            writer.println("Long anagrams, sort: " + (runtimeLAS / 1000000));
+            writer.println("Long anagrams, hash: " + (runtimeLAH / 1000000));
+            writer.println("Long anagrams, primes: " + (runtimeLAP / 1000000));
+
+            writer.println("\n");
+            writer.println("Result from sorting algorithm");
+            writer.println("=============================\n");
+            for (Map.Entry<String, List<String>> entry : commonEnglishSort.entrySet()) {
+                writer.println(entry.getKey() + ": " + entry.getValue().toString());
+            }
+            writer.println("\n");
+            writer.println("Result from hashmap algorithm");
+            writer.println("=============================\n");
+            for (Map.Entry<Map<Character, Integer>, List<String>> entry : commonEnglishHash.entrySet()) {
+                writer.println(entry.getKey() + ": " + entry.getValue().toString());
+            }
+            writer.println("\n");
+            writer.println("Result from primes algorithm");
+            writer.println("=============================\n");
+            for (Map.Entry<BigInteger, List<String>> entry : commonEnglishPrime.entrySet()) {
+                writer.println(entry.getKey() + ": " + entry.getValue().toString());
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -75,34 +103,26 @@ public class Anagram {
      * @return
      */
     public static Map<String, List<String>> anagramMapSortMethod(String[] inputStrings) {
-
-        Map<String, List<String>> returnMap = new HashMap<>();
-
-        for (String currentString : inputStrings) {
-            //Sort the letters in the word
-            char[] charArray = currentString.toCharArray();
-            Arrays.sort(charArray);
-            String sortedString = new String(charArray);
-
-            // Put the word in a list with other words that consist of the same letters, if there is such a list.
-            // If not, create such a list and put the word in it.
-            if (returnMap.containsKey(sortedString)) {
-                returnMap.get(sortedString).add(currentString);
-            } else {
-                List<String> anagrams = new LinkedList<>();
-                anagrams.add(currentString);
-                returnMap.put(sortedString, anagrams);
-            }
-        }
-
-
+        Map<String, List<String>> returnMap =
+                Arrays.asList(inputStrings)
+                        .stream()
+                        .collect(Collectors.groupingBy(s -> getSortedVersion(s)));
         return (HashMap<String, List<String>>)removeDuplicates(returnMap);
 
+    }
+
+    private static String getSortedVersion(String s) {
+        //Sort the letters in the word
+        char[] charArray = s.toCharArray();
+        Arrays.sort(charArray);
+        String sortedString = new String(charArray);
+        return sortedString;
     }
 
     //HASH METHOD
 
     public static Map<Map<Character, Integer>, List<String>> anagramMapHashMethod(String[] inputStrings) {
+
         Map<Map<Character, Integer>, List<String>> returnMap =
                 Arrays.asList(inputStrings)
                         .stream()
