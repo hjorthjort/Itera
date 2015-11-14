@@ -18,6 +18,11 @@ public class Anagram {
 
         initiatePrimes();
 
+        String[] originalTest = {"niste", "stien", "allfarveien", "konsert", "torsken", "stein"};
+        System.out.println(anagramMapSortMethod(originalTest));
+        System.out.println(anagramMapHashMethod(originalTest));
+        System.out.println(anagramMapPrimesMethod(originalTest));
+
         long startCES = System.nanoTime();
         Map<String, List<String>> commonEnglishSort = anagramMapSortMethod(commonEnglishWords);
         long endCES = System.nanoTime();
