@@ -24,12 +24,12 @@ public class Anagram {
         System.out.println(anagramMapPrimesMethod(originalTest));
 
         long startCES = System.nanoTime();
-        Map<String, List<String>> commonEnglishSort = anagramMapSortMethod(commonEnglishWords);
+        Map<String, List<String>> commonEnglishSort = new SortingAnagramMap().createMap(commonEnglishWords);
         long endCES = System.nanoTime();
         long runtimeCES = endCES - startCES;
 
         long startLAS = System.nanoTime();
-        Map longAnagramsSort = anagramMapSortMethod(longAnagrams);
+        Map longAnagramsSort = new SortingAnagramMap().createMap(longAnagrams);
         long endLAS = System.nanoTime();
         long runtimeLAS = endLAS - startLAS;
 
