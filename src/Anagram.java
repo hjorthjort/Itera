@@ -90,8 +90,14 @@ public class Anagram {
             e.printStackTrace();
         }
 
+        System.out.print("Testing finished");
+
     }
 
+    /**
+     * Pre-create many primes to save time during execution
+     *
+     */
     private static void initiatePrimes() {
         for (int i = 0; i < 1000; i++) {
             generatePrime((char) i);
@@ -116,6 +122,11 @@ public class Anagram {
 
     }
 
+    /**
+     *
+     * @param string to be sorted
+     * @return a sorted version of this string
+     */
     private static String getSortedVersion(String s) {
         //Sort the letters in the word
         char[] charArray = s.toCharArray();
@@ -135,6 +146,11 @@ public class Anagram {
         return (HashMap<Map<Character, Integer>, List<String>>)removeDuplicates(returnMap);
     }
 
+    /**
+     *
+     * @param string to be mapped
+     * @return a map containing the characters of the string as keys, and occurences as value
+     */
     private static Map<Character, Integer> getCharacterCount(String string) {
         Map<Character, Integer> returnMap = new HashMap<>();
         for (char c : string.toCharArray()) {
@@ -160,6 +176,11 @@ public class Anagram {
         return (HashMap<BigInteger, List<String>>)removeDuplicates(returnMap);
     }
 
+    /**
+     *
+     * @param string to be primalized
+     * @return the product of the characters in the string, where each characters has been assigned a unique prime number
+     */
     private static BigInteger getPrimeRepresentation(String s) {
         char[] charArray = s.toCharArray();
         BigInteger primeRepresentation = BigInteger.ONE;
