@@ -9,6 +9,8 @@ public class PrimesAnagramMap extends AnagramMap<BigInteger> {
 
     private static Map<Character, Integer> primes = new HashMap<>();
     private static int largestPrime = 2;
+
+    //Start with this number of primes to guarantee faster execution time for map creation.
     private static final int INITIAL_PRIMELIST_SIZE = 1000;
 
     public PrimesAnagramMap() {
