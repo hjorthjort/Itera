@@ -10,8 +10,8 @@ import java.util.*;
 public class AnagramTest {
 
     private static String[] commonEnglishWords = getCommonWords();
-    private static String[] longAnagrams = getLongAnagrams(100, 10000);
-    private static String[] longRandomStrings = getRandomStrings(100, 10000);
+    private static String[] longAnagrams = getLongAnagrams(1000, 10000);
+    private static String[] longRandomStrings = getRandomStrings(1000, 10000);
 
     public static void runTests() {
 
@@ -55,7 +55,7 @@ public class AnagramTest {
         long runtimeLAH = endLAH - startLAH;
 
         long startRSH = System.nanoTime();
-        Map randomStringsHash = sortAM.createMap(longRandomStrings);
+        Map randomStringsHash = hashAM.createMap(longRandomStrings);
         long endRSH = System.nanoTime();
         long runtimeRSH = endRSH - startRSH;
 
@@ -72,7 +72,7 @@ public class AnagramTest {
         long runtimeLAP = endLAP - startLAP;
 
         long startRSP = System.nanoTime();
-        Map randomStringsPrimes = sortAM.createMap(longRandomStrings);
+        Map randomStringsPrimes = primesAM.createMap(longRandomStrings);
         long endRSP = System.nanoTime();
         long runtimeRSP = endRSP - startRSP;
 
