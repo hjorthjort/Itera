@@ -10,12 +10,15 @@ These are the running times of the different algorithms, on the different data s
 
 | Algorithm, data set | Running time (ms) |
 |---|---|
-| Common english, sort | 232 |
-| Common english, hash | 15011 |
-| Common english, primes | 462 |
-| Long anagrams, sort | 134 |
+| Common english, sort | 200 |
+| Common english, hash | 13813 |
+| Common english, primes | 541 |
+| Long anagrams, sort | 76 |
 | Long anagrams, hash | 26 |
-| Long anagrams, primes | 165 |
+| Long anagrams, primes | 158 |
+| Random strings, sort | 32 |
+| Random strings, hash | 25 |
+| Random strings, primes | 30 |
 
 <a name='sorting'></a>
 ## Output from grouping ordinary words, sorting algorithm

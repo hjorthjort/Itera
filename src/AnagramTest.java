@@ -13,8 +13,6 @@ public class AnagramTest {
     private static String[] longAnagrams = getLongAnagrams(100, 10000);
     private static String[] longRandomStrings = getRandomStrings(100, 10000);
 
-    //TODO Add test case with many random strings, no or few anagrams
-
     public static void runTests() {
 
         SortingAnagramMap sortAM = new SortingAnagramMap();
@@ -26,6 +24,9 @@ public class AnagramTest {
         System.out.println(new HashAnagramMap().createMap(originalTest));
         System.out.println(new PrimesAnagramMap().createMap(originalTest));
 
+
+        //Run sorting algortihm
+
         long startCES = System.nanoTime();
         Map<String, List<String>> commonEnglishSort = sortAM.createMap(commonEnglishWords);
         long endCES = System.nanoTime();
@@ -35,6 +36,13 @@ public class AnagramTest {
         Map longAnagramsSort = sortAM.createMap(longAnagrams);
         long endLAS = System.nanoTime();
         long runtimeLAS = endLAS - startLAS;
+
+        long startRSS = System.nanoTime();
+        Map randomStringsSort = sortAM.createMap(longRandomStrings);
+        long endRSS = System.nanoTime();
+        long runtimeRSS = endRSS - startRSS;
+
+        //Run hash map algortihm
 
         long startCEH = System.nanoTime();
         Map<Map<Character, Integer>, List<String>> commonEnglishHash = hashAM.createMap(commonEnglishWords);
@@ -46,6 +54,13 @@ public class AnagramTest {
         long endLAH = System.nanoTime();
         long runtimeLAH = endLAH - startLAH;
 
+        long startRSH = System.nanoTime();
+        Map randomStringsHash = sortAM.createMap(longRandomStrings);
+        long endRSH = System.nanoTime();
+        long runtimeRSH = endRSH - startRSH;
+
+        //Run prime numbers algorithm
+
         long startCEP = System.nanoTime();
         Map<BigInteger, List<String>> commonEnglishPrimes = primesAM.createMap(commonEnglishWords);
         long endCEP = System.nanoTime();
@@ -56,6 +71,11 @@ public class AnagramTest {
         long endLAP = System.nanoTime();
         long runtimeLAP = endLAP - startLAP;
 
+        long startRSP = System.nanoTime();
+        Map randomStringsPrimes = sortAM.createMap(longRandomStrings);
+        long endRSP = System.nanoTime();
+        long runtimeRSP = endRSP - startRSP;
+
         Map<String, String> results = new LinkedHashMap<>();
         results.put("Common english, sort", "" + (runtimeCES / 1000000));
         results.put("Common english, hash", "" + (runtimeCEH / 1000000));
@@ -63,6 +83,9 @@ public class AnagramTest {
         results.put("Long anagrams, sort", "" + (runtimeLAS / 1000000));
         results.put("Long anagrams, hash", "" + (runtimeLAH / 1000000));
         results.put("Long anagrams, primes", "" + (runtimeLAP / 1000000));
+        results.put("Random strings, sort", "" +   (runtimeRSS / 1000000));
+        results.put("Random strings, hash", "" +   (runtimeRSH / 1000000));
+        results.put("Random strings, primes", "" + (runtimeRSP / 1000000));
 
         //Logging
         try {
