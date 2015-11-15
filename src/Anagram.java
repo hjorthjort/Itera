@@ -1,7 +1,9 @@
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by hjort on 12/11/15.
@@ -90,23 +92,6 @@ public class Anagram {
 
     }
 
-    //UTILITY
-
-    /**
-     * Using the Java Stream api, filter the map so that we only have entries with at least two words (words that had anagrams
-     * in the list), and then make it a new map.
-     *
-     * @param map
-     */
-    private static Map<?, List<String >> removeDuplicates(Map<?, List<String>> map) {
-        map = map.entrySet()
-                .stream()
-                .filter(entry -> entry.getValue().size() > 1)
-                .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
-        return map;
-    }
-
-    //TESTING
     //Methods for generating testing data
 
     /**
