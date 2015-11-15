@@ -19,7 +19,7 @@ public class Anagram {
         initiatePrimes();
 
         String[] originalTest = {"niste", "stien", "allfarveien", "konsert", "torsken", "stein"};
-        System.out.println(anagramMapSortMethod(originalTest));
+        System.out.println(new SortingAnagramMap().createMap(originalTest));
         System.out.println(anagramMapHashMethod(originalTest));
         System.out.println(anagramMapPrimesMethod(originalTest));
 
@@ -102,37 +102,6 @@ public class Anagram {
         for (int i = 0; i < 1000; i++) {
             generatePrime((char) i);
         }
-    }
-
-    //SORT METHOD
-
-    /**
-     * Return a map of anagrams created by sorting every words by characters, and put all words with the same ordering
-     * in a list with the same key. The key for every list is the sorted word.
-     *
-     * @param inputStrings
-     * @return
-     */
-    public static Map<String, List<String>> anagramMapSortMethod(String[] inputStrings) {
-        Map<String, List<String>> returnMap =
-                Arrays.asList(inputStrings)
-                        .stream()
-                        .collect(Collectors.groupingBy(s -> getSortedVersion(s)));
-        return (HashMap<String, List<String>>)removeDuplicates(returnMap);
-
-    }
-
-    /**
-     *
-     * @param string to be sorted
-     * @return a sorted version of this string
-     */
-    private static String getSortedVersion(String s) {
-        //Sort the letters in the word
-        char[] charArray = s.toCharArray();
-        Arrays.sort(charArray);
-        String sortedString = new String(charArray);
-        return sortedString;
     }
 
     //HASH METHOD
