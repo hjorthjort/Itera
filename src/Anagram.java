@@ -58,34 +58,45 @@ public class Anagram {
 
         //Logging
         try {
-            PrintWriter writer = new PrintWriter("log.txt", "UTF-8");
+            PrintWriter writer = new PrintWriter("log.md", "UTF-8");
 
-            writer.println("Performance (unit = milliseconds");
+            writer.println("* <a href='#performance'>Performance</a>");
+            writer.println("* <a href='#sortingres'>Sorting results</a>");
+            writer.println("* <a href='#hashres'>Hash map results</a>");
+            writer.println("* <a href='#primesres'>Prime numbers results</a>");
+            writer.println();
+            writer.println("<a name='performance'></a>Performance (unit = milliseconds)");
             writer.println("=============================\n");
-            writer.println("Common english, sort: " + (runtimeCES / 1000000));
-            writer.println("Common english, hash: " + (runtimeCEH / 1000000));
-            writer.println("Common english, primes: " + (runtimeCEP / 1000000));
-            writer.println("Long anagrams, sort: " + (runtimeLAS / 1000000));
-            writer.println("Long anagrams, hash: " + (runtimeLAH / 1000000));
-            writer.println("Long anagrams, primes: " + (runtimeLAP / 1000000));
+            writer.println("* Common english, sort: " + (runtimeCES / 1000000));
+            writer.println("* Common english, hash: " + (runtimeCEH / 1000000));
+            writer.println("* Common english, primes: " + (runtimeCEP / 1000000));
+            writer.println("* Long anagrams, sort: " + (runtimeLAS / 1000000));
+            writer.println("* Long anagrams, hash: " + (runtimeLAH / 1000000));
+            writer.println("* Long anagrams, primes: " + (runtimeLAP / 1000000));
 
-            writer.println("\n");
-            writer.println("Result from sorting algorithm");
+            writer.println();
+            writer.println("<a name='sortingres'></a>Result from sorting algorithm");
             writer.println("=============================\n");
+            writer.println("| key | values |");
+            writer.println("|---|--------|");
             for (Map.Entry<String, List<String>> entry : commonEnglishSort.entrySet()) {
-                writer.println(entry.getKey() + ": " + entry.getValue().toString());
+                writer.println("| " + entry.getKey() + " | " + entry.getValue().toString() + " |");
             }
-            writer.println("\n");
-            writer.println("Result from hashmap algorithm");
+            writer.println();
+            writer.println("<a name='hashres'></a>Result from hashmap algorithm");
             writer.println("=============================\n");
+            writer.println("| key | values |");
+            writer.println("|---|--------|");
             for (Map.Entry<Map<Character, Integer>, List<String>> entry : commonEnglishHash.entrySet()) {
-                writer.println(entry.getKey() + ": " + entry.getValue().toString());
+                writer.println("| " + entry.getKey() + " | " + entry.getValue().toString() + " |");
             }
-            writer.println("\n");
-            writer.println("Result from primes algorithm");
+            writer.println();
+            writer.println("<a name='primesres'></a>Result from primes algorithm");
             writer.println("=============================\n");
+            writer.println("| key | values |");
+            writer.println("|---|--------|");
             for (Map.Entry<BigInteger, List<String>> entry : commonEnglishPrime.entrySet()) {
-                writer.println(entry.getKey() + ": " + entry.getValue().toString());
+                writer.println("| " + entry.getKey() + " | " + entry.getValue().toString() + " |");
             }
             writer.close();
         } catch (IOException e) {
