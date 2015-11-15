@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Created by hjort on 12/11/15.
  */
-public class Anagram {
+public class AnagramTest {
 
     private static String[] commonEnglishWords = getCommonWords();
     private static String[] longAnagrams = getLongAnagrams(100, 10000);
@@ -69,10 +69,10 @@ public class Anagram {
 
             Logger logger = new Logger("test_results.md");
             String[] tableOfContents = {
-                    "* <a href='#performance'>Performance</a>",
-                    "* <a href='#sorting'>Sorting results</a>",
-                    "* <a href='#hashres'>Hash map results</a>",
-                    "* <a href='#primesres'>Prime numbers results</a>"
+                    "<a href='#performance'>Performance</a>",
+                    "<a href='#sorting'>Sorting results</a>",
+                    "<a href='#hashres'>Hash map results</a>",
+                    "<a href='#primesres'>Prime numbers results</a>"
             };
 
             logger.writeBulletlist(tableOfContents);
