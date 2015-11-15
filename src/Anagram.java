@@ -10,18 +10,14 @@ public class Anagram {
 
     private static String[] commonEnglishWords = getCommonWords();
     private static String[] longAnagrams = getLongAnagrams(100, 10000);
-    private static Map<Character, Integer> primes = new HashMap<>();
-    private static int largestPrime = 2;
 
 
     public static void runTests() {
 
-        initiatePrimes();
-
         String[] originalTest = {"niste", "stien", "allfarveien", "konsert", "torsken", "stein"};
         System.out.println(new SortingAnagramMap().createMap(originalTest));
         System.out.println(new HashAnagramMap().createMap(originalTest));
-        System.out.println(anagramMapPrimesMethod(originalTest));
+        System.out.println(new PrimesAnagramMap().createMap(originalTest));
 
         long startCES = System.nanoTime();
         Map<String, List<String>> commonEnglishSort = new SortingAnagramMap().createMap(commonEnglishWords);
@@ -44,12 +40,12 @@ public class Anagram {
         long runtimeLAH = endLAH - startLAH;
 
         long startCEP = System.nanoTime();
-        Map<BigInteger, List<String>> commonEnglishPrime = anagramMapPrimesMethod(commonEnglishWords);
+        Map<BigInteger, List<String>> commonEnglishPrime = new PrimesAnagramMap().createMap(commonEnglishWords);
         long endCEP = System.nanoTime();
         long runtimeCEP = endCEP - startCEP;
 
         long startLAP = System.nanoTime();
-        Map longAnagramsPrime = anagramMapPrimesMethod(longAnagrams);
+        Map longAnagramsPrime = new PrimesAnagramMap().createMap(longAnagrams);
         long endLAP = System.nanoTime();
         long runtimeLAP = endLAP - startLAP;
 
@@ -94,76 +90,6 @@ public class Anagram {
 
     }
 
-    /**
-     * Pre-create many primes to save time during execution
-     *
-     */
-    private static void initiatePrimes() {
-        for (int i = 0; i < 1000; i++) {
-            generatePrime((char) i);
-        }
-    }
-
-
-    //PRIMES
-
-    public static Map<BigInteger, List<String>> anagramMapPrimesMethod(String[] inputStrings) {
-        Map<BigInteger, List<String>> returnMap =
-                Arrays.asList(inputStrings)
-                        .stream()
-                        .collect(Collectors.groupingBy(s -> getPrimeRepresentation(s)));
-
-        return (HashMap<BigInteger, List<String>>)removeDuplicates(returnMap);
-    }
-
-    /**
-     *
-     * @param string to be primalized
-     * @return the product of the characters in the string, where each characters has been assigned a unique prime number
-     */
-    private static BigInteger getPrimeRepresentation(String s) {
-        char[] charArray = s.toCharArray();
-        BigInteger primeRepresentation = BigInteger.ONE;
-        for (char c : charArray) {
-            try {
-                BigInteger prime = new BigInteger(Integer.toString(getPrime(c)));
-                primeRepresentation = primeRepresentation.multiply(prime);
-            } catch (NullPointerException e) {
-                System.out.println(c);
-            }
-        }
-        return primeRepresentation;
-    }
-
-    private static int getPrime(char c) {
-        if (primes.containsKey(c)) {
-            return primes.get(c);
-        } else {
-            return generatePrime(c);
-        }
-    }
-
-    private static int generatePrime(char c) {
-        for (int j = largestPrime + 1; ; j++) {
-            if (isPrime(j)) {
-                primes.put(c, j);
-                largestPrime = j;
-                break;
-            }
-        }
-        return largestPrime;
-    }
-
-    private static boolean isPrime(int p) {
-        if (p % 2 == 0) {
-            return false;
-        }
-        for (int i = 3; i * i <= p; i += 2) {
-            if (p % i == 0)
-                return false;
-        }
-        return true;
-    }
     //UTILITY
 
     /**
