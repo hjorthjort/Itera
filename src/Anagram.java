@@ -12,9 +12,13 @@ public class Anagram {
 
     private static String[] commonEnglishWords = getCommonWords();
     private static String[] longAnagrams = getLongAnagrams(100, 10000);
-
+    //TODO Add test case with many random strings, no or few anagrams
 
     public static void runTests() {
+
+        SortingAnagramMap sortAM = new SortingAnagramMap();
+        HashAnagramMap hashAM = new HashAnagramMap();
+        PrimesAnagramMap primesAM = new PrimesAnagramMap();
 
         String[] originalTest = {"niste", "stien", "allfarveien", "konsert", "torsken", "stein"};
         System.out.println(new SortingAnagramMap().createMap(originalTest));
@@ -22,32 +26,32 @@ public class Anagram {
         System.out.println(new PrimesAnagramMap().createMap(originalTest));
 
         long startCES = System.nanoTime();
-        Map<String, List<String>> commonEnglishSort = new SortingAnagramMap().createMap(commonEnglishWords);
+        Map<String, List<String>> commonEnglishSort = sortAM.createMap(commonEnglishWords);
         long endCES = System.nanoTime();
         long runtimeCES = endCES - startCES;
 
         long startLAS = System.nanoTime();
-        Map longAnagramsSort = new SortingAnagramMap().createMap(longAnagrams);
+        Map longAnagramsSort = sortAM.createMap(longAnagrams);
         long endLAS = System.nanoTime();
         long runtimeLAS = endLAS - startLAS;
 
         long startCEH = System.nanoTime();
-        Map<Map<Character, Integer>, List<String>>  commonEnglishHash = new HashAnagramMap().createMap(commonEnglishWords);
+        Map<Map<Character, Integer>, List<String>> commonEnglishHash = hashAM.createMap(commonEnglishWords);
         long endCEH = System.nanoTime();
         long runtimeCEH = endCEH - startCEH;
 
         long startLAH = System.nanoTime();
-        Map longAnagramsHash = new HashAnagramMap().createMap(longAnagrams);
+        Map longAnagramsHash = hashAM.createMap(longAnagrams);
         long endLAH = System.nanoTime();
         long runtimeLAH = endLAH - startLAH;
 
         long startCEP = System.nanoTime();
-        Map<BigInteger, List<String>> commonEnglishPrime = new PrimesAnagramMap().createMap(commonEnglishWords);
+        Map<BigInteger, List<String>> commonEnglishPrime = primesAM.createMap(commonEnglishWords);
         long endCEP = System.nanoTime();
         long runtimeCEP = endCEP - startCEP;
 
         long startLAP = System.nanoTime();
-        Map longAnagramsPrime = new PrimesAnagramMap().createMap(longAnagrams);
+        Map longAnagramsPrime = primesAM.createMap(longAnagrams);
         long endLAP = System.nanoTime();
         long runtimeLAP = endLAP - startLAP;
 
