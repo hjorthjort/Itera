@@ -20,7 +20,7 @@ public class Anagram {
 
         String[] originalTest = {"niste", "stien", "allfarveien", "konsert", "torsken", "stein"};
         System.out.println(new SortingAnagramMap().createMap(originalTest));
-        System.out.println(anagramMapHashMethod(originalTest));
+        System.out.println(new HashAnagramMap().createMap(originalTest));
         System.out.println(anagramMapPrimesMethod(originalTest));
 
         long startCES = System.nanoTime();
@@ -34,12 +34,12 @@ public class Anagram {
         long runtimeLAS = endLAS - startLAS;
 
         long startCEH = System.nanoTime();
-        Map<Map<Character, Integer>, List<String>>  commonEnglishHash = anagramMapHashMethod(commonEnglishWords);
+        Map<Map<Character, Integer>, List<String>>  commonEnglishHash = new HashAnagramMap().createMap(commonEnglishWords);
         long endCEH = System.nanoTime();
         long runtimeCEH = endCEH - startCEH;
 
         long startLAH = System.nanoTime();
-        Map longAnagramsHash = anagramMapHashMethod(longAnagrams);
+        Map longAnagramsHash = new HashAnagramMap().createMap(longAnagrams);
         long endLAH = System.nanoTime();
         long runtimeLAH = endLAH - startLAH;
 
@@ -104,35 +104,6 @@ public class Anagram {
         }
     }
 
-    //HASH METHOD
-
-    public static Map<Map<Character, Integer>, List<String>> anagramMapHashMethod(String[] inputStrings) {
-
-        Map<Map<Character, Integer>, List<String>> returnMap =
-                Arrays.asList(inputStrings)
-                        .stream()
-                        .collect(Collectors.groupingBy(s -> getCharacterCount(s)));
-        return (HashMap<Map<Character, Integer>, List<String>>)removeDuplicates(returnMap);
-    }
-
-    /**
-     *
-     * @param string to be mapped
-     * @return a map containing the characters of the string as keys, and occurences as value
-     */
-    private static Map<Character, Integer> getCharacterCount(String string) {
-        Map<Character, Integer> returnMap = new HashMap<>();
-        for (char c : string.toCharArray()) {
-            if (returnMap.containsKey(c)) {
-                int occurences = returnMap.get(c);
-                occurences++;
-                returnMap.put(c, occurences);
-            } else {
-                returnMap.put(c, 1);
-            }
-        }
-        return returnMap;
-    }
 
     //PRIMES
 
