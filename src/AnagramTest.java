@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.*;
 
@@ -12,7 +11,8 @@ public class AnagramTest {
 
     private static String[] commonEnglishWords = getCommonWords();
     private static String[] longAnagrams = getLongAnagrams(100, 10000);
-    private static PrintWriter writer;
+    private static String[] longRandomStrings = getRandomStrings(100, 10000);
+
     //TODO Add test case with many random strings, no or few anagrams
 
     public static void runTests() {
@@ -140,19 +140,42 @@ public class AnagramTest {
      */
     private static String[] getLongAnagrams(int wordLength, int arraySize) {
         // Keep the heap clean by creating a single random-obejct that we use consistently
-        Random rand = new Random();
-        char[] baseCharArray = new char[wordLength];
-        for (int i = 0; i < wordLength; i++) {
-            baseCharArray[i] = (char) (rand.nextInt(26) + 'a');
-        }
 
+        char[] baseCharArray = getRandomString(wordLength).toCharArray();
         String[] returnArray = new String[arraySize];
         for (int i = 0; i < arraySize; i++) {
             shuffleArray(baseCharArray);
             returnArray[i] = new String(baseCharArray);
         }
-
         return returnArray;
+    }
+
+    /**
+     * Get an array of desired number random strings of desired length
+     * @param wordLength lenght of each string
+     * @param numberOfWords number of strings in the array
+     * @return an array of size numberOfWords with strings of length wordLength
+     */
+    private static String[] getRandomStrings(int wordLength, int numberOfWords) {
+        String[] retArray = new String[numberOfWords];
+        for (int i = 0; i < numberOfWords; i++) {
+            retArray[i] = getRandomString(wordLength);
+        }
+        return retArray;
+    }
+
+    /**
+     * Get a string of desired length, consisting of random letters a-z
+     * @param wordLength
+     * @return
+     */
+    private static String getRandomString(int wordLength) {
+        Random rand = new Random();
+        char[] stringCharArray = new char[wordLength];
+        for (int i = 0; i < wordLength; i++) {
+            stringCharArray[i] = (char) (rand.nextInt(26) + 'a');
+        }
+        return new String(stringCharArray);
     }
 
     /**
