@@ -39,7 +39,10 @@ public abstract class AnagramMap<K> {
     }
 
     /**
-     * The algorithm for finding anagrams
+     * The algorithm for finding anagrams.
+     *
+     * This method must return a key which is uniquely based on the characters in the string, but not the order. Thus,
+     * any two words which area anagrams of each other must result identical keys.
      * @param string
      * @return
      */
