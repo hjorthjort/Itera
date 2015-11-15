@@ -1,7 +1,7 @@
-* * <a href='#performance'>Performance</a>
-* * <a href='#sorting'>Sorting results</a>
-* * <a href='#hashres'>Hash map results</a>
-* * <a href='#primesres'>Prime numbers results</a>
+* <a href='#performance'>Performance</a>
+* <a href='#sorting'>Sorting results</a>
+* <a href='#hashres'>Hash map results</a>
+* <a href='#primesres'>Prime numbers results</a>
 
 <a name='performance'></a>
 # Performance
@@ -10,12 +10,12 @@ These are the running times of the different algorithms, on the different data s
 
 | Algorithm, data set | Running time (ms) |
 |---|---|
-| Common english, sort | 206 |
-| Common english, hash | 15288 |
-| Common english, primes | 577 |
-| Long anagrams, sort | 85 |
-| Long anagrams, hash | 29 |
-| Long anagrams, primes | 206 |
+| Common english, sort | 232 |
+| Common english, hash | 15011 |
+| Common english, primes | 462 |
+| Long anagrams, sort | 134 |
+| Long anagrams, hash | 26 |
+| Long anagrams, primes | 165 |
 
 <a name='sorting'></a>
 ## Output from grouping ordinary words, sorting algorithm
