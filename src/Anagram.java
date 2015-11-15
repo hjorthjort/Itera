@@ -12,6 +12,7 @@ public class Anagram {
 
     private static String[] commonEnglishWords = getCommonWords();
     private static String[] longAnagrams = getLongAnagrams(100, 10000);
+    private static PrintWriter writer;
     //TODO Add test case with many random strings, no or few anagrams
 
     public static void runTests() {
@@ -46,7 +47,7 @@ public class Anagram {
         long runtimeLAH = endLAH - startLAH;
 
         long startCEP = System.nanoTime();
-        Map<BigInteger, List<String>> commonEnglishPrime = primesAM.createMap(commonEnglishWords);
+        Map<BigInteger, List<String>> commonEnglishPrimes = primesAM.createMap(commonEnglishWords);
         long endCEP = System.nanoTime();
         long runtimeCEP = endCEP - startCEP;
 
@@ -55,50 +56,48 @@ public class Anagram {
         long endLAP = System.nanoTime();
         long runtimeLAP = endLAP - startLAP;
 
+        Map<String, String> results = new LinkedHashMap<>();
+        results.put("Common english, sort", "" + (runtimeCES / 1000000));
+        results.put("Common english, hash", "" + (runtimeCEH / 1000000));
+        results.put("Common english, primes", "" + (runtimeCEP / 1000000));
+        results.put("Long anagrams, sort", "" + (runtimeLAS / 1000000));
+        results.put("Long anagrams, hash", "" + (runtimeLAH / 1000000));
+        results.put("Long anagrams, primes", "" + (runtimeLAP / 1000000));
 
         //Logging
         try {
-            PrintWriter writer = new PrintWriter("log.md", "UTF-8");
 
-            writer.println("* <a href='#performance'>Performance</a>");
-            writer.println("* <a href='#sortingres'>Sorting results</a>");
-            writer.println("* <a href='#hashres'>Hash map results</a>");
-            writer.println("* <a href='#primesres'>Prime numbers results</a>");
-            writer.println();
-            writer.println("<a name='performance'></a>Performance (unit = milliseconds)");
-            writer.println("=============================\n");
-            writer.println("* Common english, sort: " + (runtimeCES / 1000000));
-            writer.println("* Common english, hash: " + (runtimeCEH / 1000000));
-            writer.println("* Common english, primes: " + (runtimeCEP / 1000000));
-            writer.println("* Long anagrams, sort: " + (runtimeLAS / 1000000));
-            writer.println("* Long anagrams, hash: " + (runtimeLAH / 1000000));
-            writer.println("* Long anagrams, primes: " + (runtimeLAP / 1000000));
+            Logger logger = new Logger("test_results.md");
+            String[] tableOfContents = {
+                    "* <a href='#performance'>Performance</a>",
+                    "* <a href='#sorting'>Sorting results</a>",
+                    "* <a href='#hashres'>Hash map results</a>",
+                    "* <a href='#primesres'>Prime numbers results</a>"
+            };
 
-            writer.println();
-            writer.println("<a name='sortingres'></a>Result from sorting algorithm");
-            writer.println("=============================\n");
-            writer.println("| key | values |");
-            writer.println("|---|--------|");
-            for (Map.Entry<String, List<String>> entry : commonEnglishSort.entrySet()) {
-                writer.println("| " + entry.getKey() + " | " + entry.getValue().toString() + " |");
-            }
-            writer.println();
-            writer.println("<a name='hashres'></a>Result from hashmap algorithm");
-            writer.println("=============================\n");
-            writer.println("| key | values |");
-            writer.println("|---|--------|");
-            for (Map.Entry<Map<Character, Integer>, List<String>> entry : commonEnglishHash.entrySet()) {
-                writer.println("| " + entry.getKey() + " | " + entry.getValue().toString() + " |");
-            }
-            writer.println();
-            writer.println("<a name='primesres'></a>Result from primes algorithm");
-            writer.println("=============================\n");
-            writer.println("| key | values |");
-            writer.println("|---|--------|");
-            for (Map.Entry<BigInteger, List<String>> entry : commonEnglishPrime.entrySet()) {
-                writer.println("| " + entry.getKey() + " | " + entry.getValue().toString() + " |");
-            }
-            writer.close();
+            logger.writeBulletlist(tableOfContents);
+
+            logger.writeAnchor("performance");
+            logger.writeHeader("Performance", 1);
+
+            logger.writeParagraph("These are the running times of the different algorithms, on the different data sets");
+
+            logger.writeTableMap("Algorithm, data set", "Running time (ms)", results);
+
+            logger.writeAnchor("sorting");
+            logger.writeHeader("Output from grouping ordinary words, sorting algorithm", 2);
+            logger.writeTableMap("Key", "Value", commonEnglishSort);
+
+            logger.writeAnchor("hash");
+            logger.writeHeader("Output from grouping ordinary words, hash map algorithm", 2);
+            logger.writeTableMap("Key", "Value", commonEnglishHash);
+
+            logger.writeAnchor("sorting");
+            logger.writeHeader("Output from grouping ordinary words, primes algorithm", 2);
+            logger.writeTableMap("Key", "Value", commonEnglishPrimes);
+
+            logger.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,7 +106,7 @@ public class Anagram {
 
     }
 
-    //Methods for generating testing data
+    //GENERATE TEST DATA
 
     /**
      * Get a whole bunch of ordinary words
